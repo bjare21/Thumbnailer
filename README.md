@@ -1,7 +1,7 @@
 # Thumbnailer
 Application that makes thumbnails with ease using few basic settings. 
 
-##Roadmap:
+## Roadmap:
  
 The purpose of my application is to:
 
