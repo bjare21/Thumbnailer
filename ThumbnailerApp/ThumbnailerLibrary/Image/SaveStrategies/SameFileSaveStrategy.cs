@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThumbnailerLibrary.Image.Abstract;
 
 namespace ThumbnailerLibrary.Image.SaveStrategies
 {
     public class SameFileSaveStrategy:ISaveStrategy
     {
-        public void SaveImage(Jimage jimage)
+        public string GetSavePath(string filePath)
         {
-            jimage.Image.Save(jimage.Path);
+            return filePath;
         }
     }
 }

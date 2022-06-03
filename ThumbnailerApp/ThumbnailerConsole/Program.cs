@@ -2,7 +2,7 @@
 using System.IO;
 using ThumbnailerLibrary.File;
 using ThumbnailerLibrary.Image;
-
+using ThumbnailerLibrary.Image.Abstract;
 
 namespace ThumbnailerConsole
 {
@@ -13,7 +13,7 @@ namespace ThumbnailerConsole
         private static readonly string imageName = @"Dsc01587.jpg";
         private static readonly string imagePath = @"C:\Users\Hp\Pictures";
         private static readonly string jpgsDirPath = @"SameJPG\";
-        private static readonly string mixedDirPath = @"TestFolder\Mieszane\";
+        private static readonly string mixedDirPath = @"Mieszane\";
         private static readonly string otherDirPath = @"TestFolder\INNE\";
         private static readonly string singlePicPath = @"TestFolder\Zdjecie\";
         private static readonly string singlePic = @"goralArgentyna.png";
@@ -35,12 +35,25 @@ namespace ThumbnailerConsole
 
             //ImageManager.Resize(nm, 350, 272, options);
 
-            string image = Path.Combine(absolutePath, jpgsDirPath);
-            JimageCollection jimages = new JimageCollection(image);
+            //string image = Path.Combine(absolutePath, jpgsDirPath);
+            //JimageCollection jimages = new JimageCollection(image);
 
-            jimages.ChangeSize(100, 100);
-            jimages.SaveChanges(ImageSaveMode.SuffixedName);
+            //jimages.ChangeSize(100, 100);
+            //jimages.SaveChanges(ImageSaveMode.SuffixedName);
 
+
+            SharpJimage jimage = new SharpJimage();
+            string path = Path.Combine(absolutePath, imageName);
+            jimage.Load(path);
+
+            jimage.Crop(200, 200, CropMode.BottomRight);
+            jimage.Suffix = "_cropped";
+            jimage.Save(ImageSaveMode.SuffixedName);
+
+            //string directoryPath = Path.Combine(absolutePath, mixedDirPath);
+            //SharpJimageCollection jimages = new SharpJimageCollection(directoryPath);
+            //jimages.Resize(100, 1300);
+            //jimages.Save(ImageSaveMode.SuffixedName);
         }
     }
 }

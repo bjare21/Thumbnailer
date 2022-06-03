@@ -8,7 +8,7 @@ namespace ThumbnailerLibrary.Image
 {
     public static class JimageExtensionMethods
     {
-        public static void ChangeSize(this IEnumerable<Jimage> self, int width, int height)
+        public static void ChangeSize(this IEnumerable<SharpJimage> self, int width, int height)
         {
             foreach(var image in self)
             {
@@ -16,7 +16,7 @@ namespace ThumbnailerLibrary.Image
             }
         }
 
-        public static void SaveChanges(this IEnumerable<Jimage> self)
+        public static void SaveChanges(this IEnumerable<SharpJimage> self)
         {
             foreach (var image in self)
             {
@@ -24,7 +24,7 @@ namespace ThumbnailerLibrary.Image
             }
         }
 
-        public static void SaveChanges(this IEnumerable<Jimage> self, ImageSaveMode imageSaveMode)
+        public static void SaveChanges(this IEnumerable<SharpJimage> self, ImageSaveMode imageSaveMode)
         {
             foreach(var image in self)
             {

@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThumbnailerLibrary.Image.Abstract;
 using ThumbnailerLibrary.Image.SaveStrategies;
 using Img = SixLabors.ImageSharp.Image;
 
 namespace ThumbnailerLibrary.Image
 {
-    public class Jimage:IJimage, IEnumerable<Jimage>
+    public class SharpJimage:IThumbnailerImage, IEnumerable<SharpJimage>
     {
         private Img _image;
         private string _path = string.Empty;
@@ -26,22 +27,34 @@ namespace ThumbnailerLibrary.Image
 
         public void Save()
         {
-            saveStrategy.SaveImage(this);
+            string savePath = saveStrategy.GetSavePath(_path);
+            _image.Save(savePath);
         }
 
         public void Save(ImageSaveMode imageSaveMode)
         {
             setImageSaveMode(imageSaveMode);
-            saveStrategy.SaveImage(this);
+            this.Save();
         }
 
-        public void Resize(int height, int width)
+        public void Resize(int width, int height)
         {
             if (_image == null) return;
-            _image.Mutate(x => x.Resize(height, width));
+
+            _image.Mutate(x => x.Resize(width, height));
         }
 
-        public IEnumerator<Jimage> GetEnumerator()
+        public void Crop(int width, int height, CropMode cropMode)
+        {
+            if (_image == null) return;
+            ResizeOptions options = new ResizeOptions();
+            options.Mode = ResizeMode.Crop;
+            options.Position = emulatePositionMode(cropMode);
+            options.Size = new Size(width, height);
+            _image.Mutate(x => x.Resize(options));
+        }
+
+        public IEnumerator<SharpJimage> GetEnumerator()
         {
             yield return this;
         }
@@ -49,6 +62,25 @@ namespace ThumbnailerLibrary.Image
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        private AnchorPositionMode emulatePositionMode(CropMode cropMode)
+        {
+            switch (cropMode)
+            {
+                case CropMode.Center:
+                    return AnchorPositionMode.Center;
+                case CropMode.TopLeft:
+                    return AnchorPositionMode.TopLeft;
+                    case CropMode.TopRight:
+                       return AnchorPositionMode.TopRight;
+                    case CropMode.BottomLeft:
+                        return AnchorPositionMode.BottomLeft;
+                case CropMode.BottomRight:
+                    return AnchorPositionMode.BottomRight;
+                default:
+                    return AnchorPositionMode.Center;
+            }
         }
 
         public Img Image

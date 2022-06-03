@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ThumbnailerLibrary.Image.Abstract;
 
 namespace ThumbnailerLibrary.Image.SaveStrategies
 {
@@ -14,12 +15,12 @@ namespace ThumbnailerLibrary.Image.SaveStrategies
         {
             this._suffix = suffix;
         }
-        public void SaveImage(Jimage jimage)
+        public string GetSavePath(string filePath)
         {
-            string path = jimage.Path;
+            string path = filePath;
             int dotNdx = path.LastIndexOf('.');
             path = path.Insert(dotNdx, _suffix);
-            jimage.Image.Save(path);
+            return path;
         }
     }
 }

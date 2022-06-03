@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThumbnailerLibrary.Image
+namespace ThumbnailerLibrary.Image.Abstract
 {
     public interface ISaveStrategy
     {
-        void SaveImage(Jimage jimage);
+        string GetSavePath(string filePath);
     }
 }
